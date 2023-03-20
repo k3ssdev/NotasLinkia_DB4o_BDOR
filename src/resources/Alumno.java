@@ -8,20 +8,16 @@ public class Alumno {
     private String nombre;
     private String nomUser;
     private String password;
-    private List<Modulo> modulos;
-    private List<Notas> notas;
+
 
     public Alumno() {
     }
 
-    public Alumno(Integer idAlumno, String nombre, String nomUser, String password, List<Modulo> modulos,
-            List<Notas> notas) {
+    public Alumno(Integer idAlumno, String nombre, String nomUser, String password) {
         this.idAlumno = idAlumno;
         this.nombre = nombre;
         this.nomUser = nomUser;
         this.password = password;
-        this.modulos = modulos;
-        this.notas = notas;
     }
 
     public Integer getIdAlumno() {
@@ -56,26 +52,10 @@ public class Alumno {
         this.password = password;
     }
 
-    public List<Modulo> getModulos() {
-        return modulos;
-    }
-
-    public void setModulos(List<Modulo> modulos) {
-        this.modulos = modulos;
-    }
-
-    public List<Notas> getNotas() {
-        return notas;
-    }
-
-    public void setNotas(List<Notas> notas) {
-        this.notas = notas;
-    }
-
     @Override
     public String toString() {
         return "Alumno{" + "idAlumno=" + idAlumno + ", nombre=" + nombre + ", nomUser=" + nomUser + ", password="
-                + password + ", modulos=" + modulos + ", notas=" + notas + '}';
+                + password + '}';
     }
 
 }

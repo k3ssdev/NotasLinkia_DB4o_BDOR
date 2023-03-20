@@ -6,17 +6,17 @@ public class Modulo {
 
     private Integer id;
     private String nombre;
-    private List<Alumno> alumnos;
-    private List<Notas> notas;
+    //private List<Alumno> alumnos;
+   // private List<Notas> notas;
 
     public Modulo() {
     }
 
-    public Modulo(Integer id, String nombre, List<Alumno> alumnos, List<Notas> notas) {
+    public Modulo(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.alumnos = alumnos;
-        this.notas = notas;
+        //this.alumnos = alumnos;
+        //this.notas = notas;
     }
 
     public Integer getId() {
@@ -35,26 +35,11 @@ public class Modulo {
         this.nombre = nombre;
     }
 
-    public List<Alumno> getAlumnos() {
-        return alumnos;
-    }
-
-    public void setAlumnos(List<Alumno> alumnos) {
-        this.alumnos = alumnos;
-    }
-
-    public List<Notas> getNotas() {
-        return notas;
-    }
-
-    public void setNotas(List<Notas> notas) {
-        this.notas = notas;
-    }
-
     @Override
     public String toString() {
-        return "Modulo{" + "id=" + id + ", nombre=" + nombre + ", alumnos=" + alumnos + ", notas=" + notas + '}';
+        return "Modulo{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 
 }
+
     

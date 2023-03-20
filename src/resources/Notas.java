@@ -14,6 +14,13 @@ public class Notas {
     public Notas() {
     }
 
+    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota) {
+        this.idNotas = idNotas;
+        this.idAlumno = idAlumno;
+        this.idModulo = idModulo;
+        this.nota = nota;
+    }
+
     public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota, List<Alumno> alumnos,
             List<Modulo> modulos) {
         this.idNotas = idNotas;
@@ -29,7 +36,7 @@ public class Notas {
     }
 
     public void setIdNotas(Integer idNotas) {
-        this.idNotas = idNotas + 1;
+        this.idNotas = idNotas;
     }
 
     public Integer getIdAlumno() {

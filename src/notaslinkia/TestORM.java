@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package notaslinkia;
 
 import java.io.Console;
@@ -93,20 +88,7 @@ public class TestORM {
                     System.out.print("\033[0m");
 
                     // Comprobar si el usuario y la contraseña son correctos
-                    if (!gestor.comprobarProfesor(userProf, passProf)) {
-                        System.out.println("Usuario o contraseña incorrectos. Acceso denegado.");
-                        gestor.registroHistorial("Contraseña incorrecta", 0, timestamp.toString());
-                        // Presionar una tecla para continuar
-                        System.out.println("Presiona una tecla para continuar...");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
-                        }
-                        break;
-                    }
-
-                    int idProfesor = gestor.getIdProfesor(userProf);
-                    gestor.registroHistorial("Inicio de sesión", idProfesor, timestamp.toString());
+                  
 
                     // Bucle para mostrar el menú de profesor hasta que se elija la opción de salir
 
@@ -143,8 +125,7 @@ public class TestORM {
                             case 1:
                                 // Llamar a método para insertar módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.insertarModulo();
-                                gestor.registroHistorial("Insertar módulo", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
@@ -152,7 +133,7 @@ public class TestORM {
                                 // Llamar a método para listar todos los módulos
                                 System.out.print("\033[H\033[2J");
                                 gestor.listarModulos();
-                                gestor.registroHistorial("Listar módulos", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
 
@@ -160,24 +141,21 @@ public class TestORM {
                             case 3:
                                 // Llamar a método para eliminar módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.eliminarModulo();
-                                gestor.registroHistorial("Eliminar módulo", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 4:
                                 // Llamar a método para insertar alumno
                                 System.out.print("\033[H\033[2J");
-                                gestor.insertarAlumno();
-                                gestor.registroHistorial("Insertar alumno", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 5:
                                 // Llamar a método para listar todos los alumnos
                                 System.out.print("\033[H\033[2J");
-                                gestor.consultarTodosAlumnos();
-                                gestor.registroHistorial("Listar alumnos", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
 
                                 scanner.nextLine();
@@ -185,40 +163,35 @@ public class TestORM {
                             case 6:
                                 // Llamar a método para listar alumnos por módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.listarAlumnosPorModulo();
-                                gestor.registroHistorial("Listar alumnos por módulo", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 7:
                                 // Llamar a método para eliminar alumno
                                 System.out.print("\033[H\033[2J");
-                                gestor.borrarAlumno();
-                                gestor.registroHistorial("Eliminar alumno", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 8:
                                 // Insertar notas
                                 System.out.print("\033[H\033[2J");
-                                gestor.insertarNotas();
-                                gestor.registroHistorial("Insertar notas", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 9:
                                 // Modificar notas
                                 System.out.print("\033[H\033[2J");
-                                gestor.actualizarNotas();
-                                gestor.registroHistorial("Modificar notas", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 10:
                                 // Eliminar notas
                                 System.out.print("\033[H\033[2J");
-                                gestor.borrarNotas();
-                                gestor.registroHistorial("Eliminar notas", idProfesor, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
@@ -226,7 +199,7 @@ public class TestORM {
                             case 0:
                                 System.out.print("\033[H\033[2J");
                                 System.out.println("Saliendo...");
-                                gestor.registroHistorial("Cierre de sesión", idProfesor, timestamp.toString());
+
                                 menuProfesor = false;
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
@@ -254,21 +227,9 @@ public class TestORM {
                     char[] readPassword2 = alumnoConsole.readPassword("Ingresa la contraseña: ");
                     System.out.print("\033[0m");
                     String passAlumno = new String(readPassword2);
-                    if (!gestor.comprobarAlumno(userAlumno, passAlumno)) {
-                        System.out.println("Usuario o contraseña incorrectos. Acceso denegado.");
-                        gestor.registroHistorial("Contraseña incorrecta", 0, timestamp.toString());
-                        // Presionar una tecla para continuar
-                        System.out.println("Presiona una tecla para continuar...");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
-                        }
-                        break;
-                    }
-
-                    int idAlumno = gestor.getIdAlumno(userAlumno);
-                    gestor.registroHistorial("Inicio de sesión", idAlumno, timestamp.toString());
-
+                    
+                
+                   
                     while (menuAlumno) {
 
                         // Limpiar pantalla
@@ -291,24 +252,21 @@ public class TestORM {
                             case 1:
                                 // Llamar a método para consultar notas
                                 System.out.print("\033[H\033[2J");
-                                gestor.consultarNotasAlumno(userAlumno);
-                                gestor.registroHistorial("Consultar notas", idAlumno, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 2:
                                 // Llamar a método para listar módulos de los que es alumno
                                 System.out.print("\033[H\033[2J");
-                                int id = gestor.getIdAlumno(userAlumno);
-                                gestor.listarModulosPorAlumno(id);
-                                gestor.registroHistorial("Listar módulos", idAlumno, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 0:
                                 System.out.print("\033[H\033[2J");
                                 System.out.println("Saliendo...");
-                                gestor.registroHistorial("Cierre de sesión", idAlumno, timestamp.toString());
+
                                 menuAlumno = false;
                                 break;
                             default:
@@ -333,20 +291,8 @@ public class TestORM {
                     System.out.print("\033[0m");
                     String passAdmin = new String(readPassword3);
                     String userAdmin = "admin";
-                    if (!gestor.comprobarProfesor(userAdmin, passAdmin)) {
-                        System.out.println("Usuario o contraseña incorrectos. Acceso denegado.");
-                        gestor.registroHistorial("Contraseña incorrecta", 0, timestamp.toString());
-                        // Presionar una tecla para continuar
-                        System.out.println("Presiona una tecla para continuar...");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
-                        }
-                        break;
-                    }
-
-                    int idAdmin = gestor.getIdProfesor(userAdmin);
-                    gestor.registroHistorial("Inicio de sesión", idAdmin, timestamp.toString());
+                    
+                  
 
                     while (menuAdmin) {
                         System.out.print("\033[H\033[2J");
@@ -378,103 +324,92 @@ public class TestORM {
                             case 1:
                                 // Llamar a método para listar historial
                                 System.out.print("\033[H\033[2J");
-                                gestor.listarHistorial();
-                                gestor.registroHistorial("Listar historial", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 2:
                                 // Llamar a método para insertar módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.insertarModulo();
-                                gestor.registroHistorial("Insertar módulo", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 3:
                                 // Llamar a método para listar todos los módulos
                                 System.out.print("\033[H\033[2J");
-                                gestor.listarModulos();
-                                gestor.registroHistorial("Listar módulos", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 4:
                                 // Llamar a método para eliminar módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.eliminarModulo();
-                                gestor.registroHistorial("Eliminar módulo", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 5:
                                 // Llamar a método para insertar alumno
                                 System.out.print("\033[H\033[2J");
-                                gestor.insertarAlumno();
-                                gestor.registroHistorial("Insertar alumno", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 6:
                                 // Llamar a método para listar todos los alumnos
                                 System.out.print("\033[H\033[2J");
-                                gestor.consultarTodosAlumnos();
-                                gestor.registroHistorial("Listar alumnos", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 7:
                                 // Llamar a método para listar alumnos por módulo
                                 System.out.print("\033[H\033[2J");
-                                gestor.listarAlumnosPorModulo();
-                                gestor.registroHistorial("Listar alumnos por módulo", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 8:
                                 // Llamar a método para eliminar alumno
                                 System.out.print("\033[H\033[2J");
-                                gestor.borrarAlumno();
-                                gestor.registroHistorial("Eliminar alumno", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 9:
                                 // Llamar a método para listar tabla notas
                                 System.out.print("\033[H\033[2J");
-                                gestor.consultarNotas();
-                                gestor.registroHistorial("Listar tabla notas", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 10:
                                 // Llamar a método para listar tabla profesores
                                 System.out.print("\033[H\033[2J");
-                                gestor.consultarTodosProfesores();
-                                gestor.registroHistorial("Listar tabla profesores", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 11:
                                 // Llamar a método para modificar profesor
                                 System.out.print("\033[H\033[2J");
-                                gestor.modificarProfesorId();
-                                gestor.registroHistorial("Modificar profesor", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 12:
                                 // Llamar a método para eliminar profesor
                                 System.out.print("\033[H\033[2J");
-                                gestor.borrarProfesor();
-                                gestor.registroHistorial("Eliminar profesor", idAdmin, timestamp.toString());
+
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 break;
                             case 0:
                                 System.out.print("\033[H\033[2J");
                                 System.out.println("Saliendo...");
-                                gestor.registroHistorial("Cierre de sesión", idAdmin, timestamp.toString());
+
                                 System.out.println("\nPresione una tecla para continuar...");
                                 scanner.nextLine();
                                 menuAdmin = false;

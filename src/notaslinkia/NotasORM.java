@@ -328,6 +328,42 @@ public class NotasORM {
         }
     }
 
+    public void listarNotas2() {
+        try {
+            // Limpiar la pantalla
+            System.out.print("\033[H\033[2J");
+            // Listar tabla de notas (id, idAlumno, idModulo, nota)
+            List<Notas> notas = new ArrayList<>();
+            Query q = db.query();
+            q.constrain(Notas.class);
+            ObjectSet resultado = q.execute();
+            while (resultado.hasNext()) {
+                Notas n = (Notas) resultado.next();
+                notas.add(n);
+            }
+            // Ordenar por id
+            Collections.sort(notas, (n1, n2) -> n1.getIdNotas() - n2.getIdNotas());
+            // Imprimir encabezado de la tabla
+            System.out.println("+-------+------------+------------+-------+");
+            System.out.printf(
+                    "| \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m |\n",
+                    "ID", "ID Alumno ", "ID Módulo ", "Nota ");
+            System.out.println("+-------+------------+------------+-------+");
+            // Imprimir cada registro en la tabla con for
+            for (Notas n : notas) {
+                System.out.println(n.toString());
+            }
+        } catch (Exception e) {
+            // detalles del error
+
+            System.out.println("\033[38;5;196m");
+            System.out.println("Error al listar las notas");
+            e.printStackTrace();
+            System.out.print("\033[0m");
+            pausa();
+        }
+    }
+
     public void insertarNota() {
         try {
             listarNotas();
@@ -352,7 +388,10 @@ public class NotasORM {
             System.out.println("\033[32m");
             System.out.print("Introduce la nota: ");
             System.out.print("\033[0m");
-            Double nota = sc.nextDouble();
+            String notaString = sc.next();
+            double nota = Double.parseDouble(notaString);
+
+            //Double nota = sc.nextDouble();
 
             // Query para comprobar si la nota ya existe
             Query q = db.query();
@@ -409,7 +448,8 @@ public class NotasORM {
         System.out.println("\033[32m");
         System.out.print("Introduce la nueva nota: ");
         System.out.print("\033[0m");
-        Double nota = sc.nextDouble();
+        String notaString = sc.next();
+        double nota = Double.parseDouble(notaString);
         n.setNota(nota);
         db.store(n);
         System.out.println("\033[38;5;206m");
@@ -449,6 +489,43 @@ public class NotasORM {
     }
 
     public void listarNotasPorAlumno() {
+        // Listar alumnos
+        listarAlumnos();
+        // Pedir el código del alumno
+        System.out.println("\033[32m");
+        System.out.print("Introduce el código del alumno: ");
+        System.out.print("\033[0m");
+        int codigoAlumno = sc.nextInt();
+        // Query para comprobar si el alumno existe
+        Query q = db.query();
+        q.constrain(Alumno.class);
+        q.descend("idAlumno").constrain(codigoAlumno);
+        ObjectSet resultado = q.execute();
+        if (resultado.size() == 0) {
+            System.out.println("\033[38;5;196m");
+            System.out.println("El alumno no existe");
+            System.out.print("\033[0m");
+            pausa();
+            return;
+        }
+        // Query para listar las notas del alumno
+        Query q2 = db.query();
+        q2.constrain(Notas.class);
+        q2.descend("idAlumno").constrain(codigoAlumno);
+        ObjectSet resultado2 = q2.execute();
+        // Imprimir cabecera de la tabla
+        System.out.println("+--------+------------+------------+-------+");
+        System.out.printf("| %-5s | %-10s | %-10s | %-5s |%n", "Código", "Alumno", "Módulo", "Nota");
+        System.out.println("+--------+------------+------------+-------+");
+        // Imprimir las notas
+        for (Object o : resultado2) {
+            Notas n = (Notas) o;
+            System.out.printf("| %-6d | %-10d | %-10d | %-5.2f |%n", n.getIdNotas(), n.getIdAlumno(), n.getIdModulo(), n.getNota());
+        }
+        // Imprimir pie de tabla
+        System.out.println("+--------+------------+------------+-------+");
+        // Pausa
+        pausa();
     }
 
 }

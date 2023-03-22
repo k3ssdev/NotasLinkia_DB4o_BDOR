@@ -8,8 +8,8 @@ public class Notas {
     private Integer idAlumno;
     private Integer idModulo;
     private Double nota;
-    private List<Alumno> alumnos;
-    private List<Modulo> modulos;
+    private Alumno alumnos;
+    private Modulo modulos;
 
     public Notas() {
     }
@@ -21,8 +21,8 @@ public class Notas {
         this.nota = nota;
     }
 
-    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota, List<Alumno> alumnos,
-            List<Modulo> modulos) {
+    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota, Alumno alumnos,
+            Modulo modulos) {
         this.idNotas = idNotas;
         this.idAlumno = idAlumno;
         this.idModulo = idModulo;
@@ -63,19 +63,19 @@ public class Notas {
         this.nota = nota;
     }
 
-    public List<Alumno> getAlumnos() {
+    public Alumno getAlumnos() {
         return alumnos;
     }
 
-    public void setAlumnos(List<Alumno> alumnos) {
+    public void setAlumnos(Alumno alumnos) {
         this.alumnos = alumnos;
     }
 
-    public List<Modulo> getModulos() {
+    public Modulo getModulos() {
         return modulos;
     }
 
-    public void setModulos(List<Modulo> modulos) {
+    public void setModulos(Modulo modulos) {
         this.modulos = modulos;
     }
 

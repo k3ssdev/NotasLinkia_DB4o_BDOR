@@ -1,30 +1,29 @@
 package resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Modulo {
-
-    private Integer id;
+    private Integer idModulo;
     private String nombre;
-    //private List<Alumno> alumnos;
-   // private List<Notas> notas;
+    private List<Notas> notas; // nueva línea
 
     public Modulo() {
+        this.notas = new ArrayList<>(); // nueva línea
     }
 
-    public Modulo(Integer id, String nombre) {
-        this.id = id;
+    public Modulo(Integer idModulo, String nombre) {
+        this.idModulo = idModulo;
         this.nombre = nombre;
-        //this.alumnos = alumnos;
-        //this.notas = notas;
+        this.notas = new ArrayList<>(); // nueva línea
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdModulo() {
+        return idModulo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdModulo(Integer idModulo) {
+        this.idModulo = idModulo;
     }
 
     public String getNombre() {
@@ -35,11 +34,11 @@ public class Modulo {
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "Modulo{" + "id=" + id + ", nombre=" + nombre + '}';
+    public List<Notas> getNotas() { // nueva línea
+        return notas;
     }
 
+    public void setNotas(List<Notas> notas) { // nueva línea
+        this.notas = notas;
+    }
 }
-
-    

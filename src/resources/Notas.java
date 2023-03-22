@@ -3,32 +3,35 @@ package resources;
 import java.util.List;
 
 public class Notas {
-
     private Integer idNotas;
     private Integer idAlumno;
     private Integer idModulo;
     private Double nota;
-    private Alumno alumnos;
-    private Modulo modulos;
+    private Alumno alumno;
+    private Modulo modulo;
 
     public Notas() {
     }
 
-    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota) {
+    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota, Alumno alumno, Modulo modulo) {
         this.idNotas = idNotas;
         this.idAlumno = idAlumno;
         this.idModulo = idModulo;
         this.nota = nota;
+        this.alumno = alumno;
+        this.modulo = modulo;
+
+        // Agregar la nota al alumno y al módulo correspondientes
+        alumno.getNotas().add(this);
+        modulo.getNotas().add(this);
     }
 
-    public Notas(Integer idNotas, Integer idAlumno, Integer idModulo, Double nota, Alumno alumnos,
-            Modulo modulos) {
-        this.idNotas = idNotas;
-        this.idAlumno = idAlumno;
-        this.idModulo = idModulo;
-        this.nota = nota;
-        this.alumnos = alumnos;
-        this.modulos = modulos;
+    public Notas(int codigoNota, int codigoAlumno, int codigoModulo, double nota2) {
+        this.idNotas = codigoNota;
+        this.idAlumno = codigoAlumno;
+        this.idModulo = codigoModulo;
+        this.nota = nota2;
+        
     }
 
     public Integer getIdNotas() {
@@ -63,26 +66,25 @@ public class Notas {
         this.nota = nota;
     }
 
-    public Alumno getAlumnos() {
-        return alumnos;
+    public Alumno getAlumno() {
+        return alumno;
     }
 
-    public void setAlumnos(Alumno alumnos) {
-        this.alumnos = alumnos;
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
     }
 
-    public Modulo getModulos() {
-        return modulos;
+    public Modulo getModulo() {
+        return modulo;
     }
 
-    public void setModulos(Modulo modulos) {
-        this.modulos = modulos;
+    public void setModulo(Modulo modulo) {
+        this.modulo = modulo;
     }
 
     @Override
     public String toString() {
         return "Notas{" + "idNotas=" + idNotas + ", idAlumno=" + idAlumno + ", idModulo=" + idModulo + ", nota=" + nota
-                + ", alumnos=" + alumnos + ", modulos=" + modulos + '}';
+                + ", idAlumno=" + alumno.getIdAlumno() + ", idModulo=" + modulo.getIdModulo() + '}';
     }
-
 }

@@ -42,32 +42,42 @@ public class NotasORM {
 
     // Metodo para insertar un módulo
     public void insertarModulo() {
+        Scanner sc = new Scanner(System.in);
         try {
             // Listar los módulos
             listarModulos();
             // Pedir los datos del módulo
-            System.out.print("\033[32m");
+            System.out.println("\033[32m");
             System.out.print("Introduce el código del módulo: ");
             System.out.print("\033[0m");
-            int codigoModulo = sc.nextInt();
+            String codModString = sc.nextLine();
+            int codigoModulo = Integer.parseInt(codModString);
             System.out.println("\033[32m");
             System.out.print("Introduce el nombre del módulo: ");
             System.out.print("\033[0m");
             String nombreModulo = sc.nextLine();
             System.out.print("\033[32m");
             Modulo modulo = new Modulo(codigoModulo, nombreModulo);
-            // Query para comprobar si el módulo ya existe
-            Query q = db.query();
-            q.constrain(Modulo.class);
-            q.descend("id").constrain(modulo.getId());
-            ObjectSet resultado = q.execute();
-            if (resultado.size() > 0) {
+            System.out.print("\033[0m");
+
+            // Comprobar que no existe un módulo
+            if (existeModulo(codigoModulo)) {
                 System.out.println("\033[38;5;196m");
-                System.out.println("El módulo ya existe");
+                System.out.println("Ya existe un módulo con ese código");
                 System.out.print("\033[0m");
                 pausa();
                 return;
             }
+
+            // Comprobar que no existe un módulo
+            if (existeModulo(nombreModulo)) {
+                System.out.println("\033[38;5;196m");
+                System.out.println("Ya existe un módulo con ese nombre");
+                System.out.print("\033[0m");
+                pausa();
+                return;
+            }
+
             // Guardar el módulo
             db.store(modulo);
             System.out.println("\033[38;5;206m");
@@ -82,6 +92,26 @@ public class NotasORM {
             pausa();
         }
     }
+
+    // Comprobar si existe un módulo por id
+    public boolean existeModulo(int id) {
+        Query q = db.query();
+        q.constrain(Modulo.class);
+        q.descend("idModulo").constrain(id);
+        ObjectSet resultado = q.execute();
+        return resultado.size() > 0;
+    }
+
+    // Comprobar si existe un módulo por nombre
+    public boolean existeModulo(String nombre) {
+        Query q = db.query();
+        q.constrain(Modulo.class);
+        q.descend("nombre").constrain(nombre);
+        ObjectSet resultado = q.execute();
+        return resultado.size() > 0;
+    }
+
+
 
     public void listarModulos() {
         try {
@@ -99,7 +129,7 @@ public class NotasORM {
                 modulos.add(m);
             }
             // Ordenar por id
-            Collections.sort(modulos, (m1, m2) -> m1.getId() - m2.getId());
+            Collections.sort(modulos, (m1, m2) -> m1.getIdModulo() - m2.getIdModulo());
 
             // Limpiar la pantalla
             System.out.print("\033[H\033[2J");
@@ -111,7 +141,7 @@ public class NotasORM {
 
             // Imprimir cada registro en la tabla
             for (Modulo m : modulos) {
-                System.out.printf("| %-5d | %-7s |\n", m.getId(), m.getNombre());
+                System.out.printf("| %-5d | %-7s |\n", m.getIdModulo(), m.getNombre());
                 System.out.println("+-------+---------+");
             }
 
@@ -243,7 +273,7 @@ public class NotasORM {
                         a.getPassword());
                 System.out.println("+-------+----------------------+----------------------+----------------------+");
             }
-            
+
         } catch (Exception e) {
             System.out.println("\033[38;5;196m");
             System.out.println("Error al listar los alumnos");
@@ -313,7 +343,8 @@ public class NotasORM {
             System.out.println("+-------+------------+------------+-------+");
             // Imprimir cada registro en la tabla con for
             for (Notas n : notas) {
-                System.out.printf("| %-5d | %-10d | %-10d | %-5.2f |\n", n.getIdNotas(), n.getIdAlumno(), n.getIdModulo(),
+                System.out.printf("| %-5d | %-10d | %-10d | %-5.2f |\n", n.getIdNotas(), n.getIdAlumno(),
+                        n.getIdModulo(),
                         n.getNota());
                 System.out.println("+-------+------------+------------+-------+");
             }
@@ -391,7 +422,7 @@ public class NotasORM {
             String notaString = sc.next();
             double nota = Double.parseDouble(notaString);
 
-            //Double nota = sc.nextDouble();
+            // Double nota = sc.nextDouble();
 
             // Query para comprobar si la nota ya existe
             Query q = db.query();
@@ -457,7 +488,7 @@ public class NotasORM {
         System.out.print("\033[0m");
         // Pausa
         pausa();
-     }
+    }
 
     public void eliminarNota() {
         listarNotas();
@@ -485,7 +516,7 @@ public class NotasORM {
         System.out.print("\033[0m");
         // Pausa
         pausa();
-        
+
     }
 
     public void listarNotasPorAlumno() {
@@ -520,7 +551,8 @@ public class NotasORM {
         // Imprimir las notas
         for (Object o : resultado2) {
             Notas n = (Notas) o;
-            System.out.printf("| %-6d | %-10d | %-10d | %-5.2f |%n", n.getIdNotas(), n.getIdAlumno(), n.getIdModulo(), n.getNota());
+            System.out.printf("| %-6d | %-10d | %-10d | %-5.2f |%n", n.getIdNotas(), n.getIdAlumno(), n.getIdModulo(),
+                    n.getNota());
         }
         // Imprimir pie de tabla
         System.out.println("+--------+------------+------------+-------+");

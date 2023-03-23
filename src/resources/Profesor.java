@@ -1,5 +1,7 @@
 package resources;
 
+import java.util.List;
+
 public class Profesor {
 
 
@@ -7,6 +9,15 @@ public class Profesor {
      private String nombre;
      private String nomUser;
      private String password;
+     private List<Profesor> profesores;
+
+        public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
+    }
 
         public Profesor() {
         }
@@ -18,12 +29,15 @@ public class Profesor {
             this.password = password;
         }
 
+        public Profesor(String string, String string2, String string3) {
+        }
+
         public Integer getId() {
             return id;
         }
 
         public void setId(Integer id) {
-            this.id = id + 1;
+            this.id = id;
         }
 
         public String getNombre() {

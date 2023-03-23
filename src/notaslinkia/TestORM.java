@@ -15,7 +15,10 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
+import com.db4o.foundation.PausableBlockingQueue;
+
 import resources.Modulo;
+import resources.Profesor;
 
 public class TestORM {
 
@@ -26,6 +29,7 @@ public class TestORM {
 
         // Crear el gestor de sesiones
         NotasORM gestor = new NotasORM();
+        HistorialBDOR gestorHistorial = new HistorialBDOR();
 
         // Crear un objeto Scanner para leer de la consola
         Scanner sc = new Scanner(System.in);
@@ -37,8 +41,23 @@ public class TestORM {
         // Crear un objeto Console para leer la contraseña
         Console console = System.console();
 
-        try (// Crear objeto scanner
-                Scanner scanner = new Scanner(System.in)) {
+        // Crear un objeto Profesor para almacenar el usuario logueado
+        Profesor profesor = null;
+
+        // Comprobar si exisi el usuario admin en profesores
+        if (!gestor.comprobarProfesor("admin", "admin")) {
+            // Crear el usuario admin
+            profesor = new Profesor(1, "admin", "admin", "admin");
+            // Guardar el usuario admin en la base de datos
+            gestor.insertarProfesor(profesor);
+        }
+
+        try (Scanner scanner = new Scanner(System.in)) {
+
+            String opcion = "";
+            String user = "";
+            String pass = "";
+
             // Bucle infinito
             while (true) {
                 // Limpiar pantalla
@@ -82,7 +101,7 @@ public class TestORM {
 
                 System.out.print("\n\033[32m Selecciona una opción: \033[0m");
 
-                String opcion = sc.nextLine();
+                opcion = sc.nextLine();
 
                 switch (opcion) {
 
@@ -92,321 +111,321 @@ public class TestORM {
                         System.out.print("\033[32m");
                         System.out.print("Ingrese su usuario: ");
                         System.out.print("\033[0m");
-                        String userProf = sc.nextLine();
+                        user = sc.nextLine();
                         System.out.print("\033[32m");
                         char[] password = console.readPassword("Ingresa la contraseña: ");
-                        String passProf = new String(password);
+                        pass = new String(password);
                         System.out.print("\033[0m");
 
-                        // Comprobar si el usuario y la contraseña son correctos
+                        // Comprobar si el usuario existe
+                        if (gestor.comprobarProfesor(user, pass)) {
 
-                        // Bucle para mostrar el menú de profesor hasta que se elija la opción de salir
+                            // Bucle para mostrar el menú de profesor
 
-                        Boolean menuProfesor = true;
+                            Boolean menuProfesor = true;
 
-                        while (menuProfesor) {
-                            // Limpiar pantalla
-                            System.out.print("\033[H\033[2J");
-                            System.out.print("\033[33m");
-                            System.out.println(" Menú de profesor:\n");
-                            System.out.print("\033[0m");
-                            System.out.println(" 1. Insertar módulo");
-                            System.out.println(" 2. Listar TODOS los módulos");
-                            System.out.println(" 3. Eliminar módulo");
-                            System.out.println(" 4. Insertar alumno");
-                            System.out.println(" 5. Listar TODOS los alumnos");
-                            System.out.println(" 6. Listar alumnos por módulo");
-                            System.out.println(" 7. Eliminar alumno");
-                            System.out.println(" 8. Listar notas");
-                            System.out.println(" 9. Listar notas por alumno");
-                            System.out.println(" 10. Añadir nota");
-                            System.out.println(" 11. Modificar nota");
-                            System.out.println(" 12. Eliminar nota");
-                            System.out.print("\033[31m");
-                            System.out.println("\n 0. Salir");
-                            System.out.print("\033[0m");
+                            while (menuProfesor) {
+                                // Limpiar pantalla
+                                System.out.print("\033[H\033[2J");
+                                System.out.print("\033[33m");
+                                System.out.println(" Menú de profesor:\n");
+                                System.out.print("\033[0m");
+                                System.out.println(" 1. Insertar módulo");
+                                System.out.println(" 2. Listar TODOS los módulos");
+                                System.out.println(" 3. Eliminar módulo");
+                                System.out.println(" 4. Insertar alumno");
+                                System.out.println(" 5. Listar TODOS los alumnos");
+                                System.out.println(" 6. Listar alumnos por módulo");
+                                System.out.println(" 7. Eliminar alumno");
+                                System.out.println(" 8. Listar notas");
+                                System.out.println(" 9. Listar notas por alumno");
+                                System.out.println(" 10. Añadir nota");
+                                System.out.println(" 11. Modificar nota");
+                                System.out.println(" 12. Eliminar nota");
+                                System.out.print("\033[31m");
+                                System.out.println("\n 0. Salir");
+                                System.out.print("\033[0m");
 
-                            System.out.print("\n\033[32m Selecciona una opción: \033[0m");
-                            int opcionProfesor = sc.nextInt();
-                            sc.nextLine();
+                                System.out.print("\n\033[32m Selecciona una opción: \033[0m");
+                                int opcionProfesor = sc.nextInt();
+                                sc.nextLine();
 
-                            switch (opcionProfesor) {
+                                switch (opcionProfesor) {
 
-                                case 1:
-                                    // Llamar a método para insertar módulo
-                                    gestor.insertarModulo();
-                                    break;
-                                case 2:
-                                    // Llamar a método para listar todos los módulos
-                                    gestor.listarModulos();
-                                    gestor.pausa();
-                                    break;
-                                case 3:
-                                    // Llamar a método para eliminar módulo
-                                    gestor.eliminarModulo();
-                                    break;
-                                case 4:
-                                    // Llamar a método para insertar alumno
-                                    gestor.insertarAlumno();
-                                    break;
-                                case 5:
-                                    // Llamar a método para listar todos los alumnos
-                                    gestor.listarAlumnos();
-                                    gestor.pausa();
-                                    break;
-                                case 6:
-                                    // Llamar a método para listar alumnos por módulo
-                                    gestor.listarAlumnosPorModulo();
-                                    break;
-                                case 7:
-                                    // Llamar a método para eliminar alumno
-                                    gestor.eliminarAlumno();
-                                    break;
-                                case 8:
-                                    // Listar notas
-                                    gestor.listarNotas();
-                                    gestor.pausa();
-                                    break;
-                                case 9:
-                                    // Listar notas por alumno
-                                    gestor.listarNotasPorAlumno();
-                                    break;
-                                case 10:
-                                    // Insertar notas
-                                    gestor.insertarNota();
-                                    break;
-                                case 11:
-                                    // Modificar notas
-                                    gestor.modificarNota();
-                                    break;
-                                case 12:
-                                    // Eliminar notas
-                                    gestor.eliminarNota();
-                                    break;
+                                    case 1:
+                                        // Llamar a método para insertar módulo
+                                        gestor.insertarModulo();
+                                        break;
+                                    case 2:
+                                        // Llamar a método para listar todos los módulos
+                                        gestor.listarModulos(null);
+                                        gestor.pausa();
+                                        break;
+                                    case 3:
+                                        // Llamar a método para eliminar módulo
+                                        gestor.eliminarModulo();
+                                        break;
+                                    case 4:
+                                        // Llamar a método para insertar alumno
+                                        gestor.insertarAlumno();
+                                        break;
+                                    case 5:
+                                        // Llamar a método para listar todos los alumnos
+                                        gestor.listarAlumnos();
+                                        gestor.pausa();
+                                        break;
+                                    case 6:
+                                        // Llamar a método para listar alumnos por módulo
+                                        gestor.listarAlumnosPorModulo(null);
+                                        break;
+                                    case 7:
+                                        // Llamar a método para eliminar alumno
+                                        gestor.eliminarAlumno();
+                                        break;
+                                    case 8:
+                                        // Listar notas
+                                        gestor.listarNotas2();
+                                        gestor.pausa();
+                                        break;
+                                    case 9:
+                                        // Listar notas por alumno
+                                        gestor.listarNotasPorAlumno(0);
+                                        break;
+                                    case 10:
+                                        // Insertar notas
+                                        gestor.insertarNota();
+                                        break;
+                                    case 11:
+                                        // Modificar notas
+                                        gestor.modificarNota();
+                                        break;
+                                    case 12:
+                                        // Eliminar notas
+                                        gestor.eliminarNota();
+                                        break;
 
-                                case 0:
-                                    System.out.print("\033[H\033[2J");
-                                    System.out.println("Saliendo...");
+                                    case 0:
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.println("Saliendo...");
+                                        menuProfesor = false;
+                                        gestor.pausa();
+                                        break;
+                                    default:
+                                        System.out.println("Opción no válida.");
+                                        break;
+                                }
 
-                                    menuProfesor = false;
-                                    gestor.cerrarConexion();
-                                    gestor.pausa();
-                                    break;
-                                default:
-                                    System.out.println("Opción no válida.");
-                                    break;
                             }
+                        } else {
+                            System.out.println("Usuario o contraseña incorrectos.");
+                            gestor.pausa();
                         }
 
                         break;
+
                     case "2":
-                        Boolean menuAlumno = true;
 
                         // Limpiar pantalla
                         System.out.print("\033[H\033[2J");
                         System.out.print("\033[32m");
                         System.out.print("Ingrese su usuario: ");
                         System.out.print("\033[0m");
-                        String userAlumno = sc.nextLine();
-
-                        // Comprobar si el usuario y la contraseña son correctos
-                        Console alumnoConsole = System.console();
+                        user = sc.nextLine();
                         System.out.print("\033[32m");
-                        char[] readPassword2 = alumnoConsole.readPassword("Ingresa la contraseña: ");
+                        char[] password2 = console.readPassword("Ingresa la contraseña: ");
+                        pass = new String(password2);
                         System.out.print("\033[0m");
-                        String passAlumno = new String(readPassword2);
 
-                        while (menuAlumno) {
+                        // Comprobar usuario y contraseña
 
-                            // Limpiar pantalla
-                            System.out.print("\033[H\033[2J");
-                            System.out.print("\033[33m");
-                            System.out.println("Menú de alumno:");
-                            System.out.println("\033[0m");
+                        if (gestor.comprobarAlumno(user, pass)) {
 
-                            System.out.println("1. Consultar notas");
-                            System.out.println("2. Listar módulos de los que es alumno");
-                            System.out.print("\033[33m");
-                            System.out.println("\n0. Salir");
-                            System.out.print("\033[0m");
+                            // Bucle para mostrar el menú de alumno
+                            Boolean menuAlumno = true;
 
-                            System.out.print("\n\033[32mSelecciona una opción: \033[0m");
-                            int opcionAlumno = sc.nextInt();
-                            sc.nextLine();
+                            while (menuAlumno) {
 
-                            switch (opcionAlumno) {
-                                case 1:
-                                    // Llamar a método para consultar notas
-                                    System.out.print("\033[H\033[2J");
+                                // Limpiar pantalla
+                                System.out.print("\033[H\033[2J");
+                                System.out.print("\033[33m");
+                                System.out.println(" Menú de alumno:\n");
+                                System.out.print("\033[0m");
+                                System.out.println(" 1. Listar módulos");
+                                System.out.println(" 2. Listar notas");
+                                System.out.print("\033[31m");
+                                System.out.println("\n 0. Salir");
+                                System.out.print("\033[0m");
 
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 2:
-                                    // Llamar a método para listar módulos de los que es alumno
-                                    System.out.print("\033[H\033[2J");
+                                System.out.print("\n\033[32m Selecciona una opción: \033[0m");
+                                int opcionAlumno = sc.nextInt();
+                                sc.nextLine();
 
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 0:
-                                    System.out.print("\033[H\033[2J");
-                                    System.out.println("Saliendo...");
+                                switch (opcionAlumno) {
 
-                                    menuAlumno = false;
-                                    break;
-                                default:
-                                    System.out.print("\033[H\033[2J");
-                                    System.out.println("Opción no válida.");
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
+                                    case 1:
+                                        // Llamar a método para listar módulos
+                                        gestor.listarNotasPorAlumno(gestor.idAlumno(user));
+                                        break;
+                                    case 2:
+                                        // Llamar a método para listar notas
+                                        gestor.listarNotasPorAlumno(gestor.idAlumno(user));
+                                        break;
+                                    case 0:
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.println("Saliendo...");
+
+                                        menuAlumno = false;
+                                        gestor.pausa();
+                                        break;
+                                    default:
+                                        System.out.println("Opción no válida.");
+                                        break;
+                                }
+
                             }
+                        } else {
+                            System.out.println("Usuario o contraseña incorrectos.");
+                            gestor.pausa();
                         }
+
                         break;
                     case "3":
                         Boolean menuAdmin = true;
 
                         // Limpiar pantalla
                         System.out.print("\033[H\033[2J");
-
-                        // Comprobar si el usuario y la contraseña son correctos
-                        Console adminConsole = System.console();
                         System.out.print("\033[32m");
-                        char[] readPassword3 = adminConsole.readPassword("Ingresa la contraseña de administrador: ");
+                        System.out.print("Ingrese su usuario: ");
                         System.out.print("\033[0m");
-                        String passAdmin = new String(readPassword3);
-                        String userAdmin = "admin";
+                        user = sc.nextLine();
+                        System.out.print("\033[32m");
+                        char[] password3 = console.readPassword("Ingresa la contraseña: ");
+                        pass = new String(password3);
+                        System.out.print("\033[0m");
 
-                        while (menuAdmin) {
-                            System.out.print("\033[H\033[2J");
-                            System.out.print("\033[33m");
-                            System.out.println("Menú de administrador:");
-                            System.out.println("\033[0m");
-                            System.out.println("1. Listar tabla historial");
-                            System.out.println("2. Insertar módulo");
-                            System.out.println("3. Listar TODOS los módulos");
-                            System.out.println("4. Eliminar módulo");
-                            System.out.println("5. Insertar alumno");
-                            System.out.println("6. Listar TODOS los alumnos");
-                            System.out.println("7. Listar alumnos por módulo");
-                            System.out.println("8. Eliminar alumno");
-                            System.out.println("9. Listar tabla notas");
-                            System.out.println("10. Listar tabla profesores");
-                            System.out.println("11. Modificar profesor");
-                            System.out.println("12. Eliminar profesor");
-                            System.out.print("\033[31m");
-                            System.out.println("\n0. Salir");
+                        // Comprobar si el usuario existe
+                        if (gestor.comprobarAdmin(user, pass)) {
 
-                            System.out.print("\n\033[32m Selecciona una opción: \033[0m");
-                            int opcionAdmin = sc.nextInt();
+                            while (menuAdmin) {
+                                System.out.print("\033[H\033[2J");
+                                System.out.print("\033[33m");
+                                System.out.println("Menú de administrador:");
+                                System.out.println("\033[0m");
+                                System.out.println("1. Listar tabla historial");
+                                System.out.println("2. Insertar módulo");
+                                System.out.println("3. Listar TODOS los módulos");
+                                System.out.println("4. Eliminar módulo");
+                                System.out.println("5. Insertar alumno");
+                                System.out.println("6. Listar TODOS los alumnos");
+                                System.out.println("7. Listar alumnos por módulo");
+                                System.out.println("8. Eliminar alumno");
+                                System.out.println("9. Listar tabla notas");
+                                System.out.println("10. Listar tabla profesores");
+                                System.out.println("11. Insertar profesor");
+                                System.out.println("12. Modificar profesor");
+                                System.out.println("13 Eliminar profesor");
+                                System.out.print("\033[31m");
+                                System.out.println("\n0. Salir");
 
-                            switch (opcionAdmin) {
-                                case 1:
-                                    // Llamar a método para listar historial
-                                    System.out.print("\033[H\033[2J");
+                                System.out.print("\n\033[32m Selecciona una opción: \033[0m");
+                                int opcionAdmin = sc.nextInt();
 
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 2:
-                                    // Llamar a método para insertar módulo
-                                    System.out.print("\033[H\033[2J");
+                                switch (opcionAdmin) {
+                                    case 1:
+                                        // Llamar a método para listar historial
+                                        System.out.print("\033[H\033[2J");
+                                        gestorHistorial.listarHistorial();
+                                        
+                                        break;
+                                    case 2:
+                                        // Llamar a método para insertar módulo
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.insertarModulo();
+                                        break;
+                                    case 3:
+                                        // Llamar a método para listar todos los módulos
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.listarModulos(null);
+                                        gestor.pausa();
+                                        break;
+                                    case 4:
+                                        // Llamar a método para eliminar módulo
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.eliminarModulo();
+                                        break;
+                                    case 5:
+                                        // Llamar a método para insertar alumno
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.insertarAlumno();
+                                        break;
+                                    case 6:
+                                        // Llamar a método para listar todos los alumnos
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.listarAlumnos();
+                                        gestor.pausa();
+                                        break;
+                                    case 7:
+                                        // Llamar a método para listar alumnos por módulo
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.listarAlumnosPorModulo(null);
+                                        break;
+                                    case 8:
+                                        // Llamar a método para eliminar alumno
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.eliminarAlumno();
+                                        break;
+                                    case 9:
+                                        // Llamar a método para listar tabla notas
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.listarNotas2();
+                                        gestor.pausa();
+                                        break;
+                                    case 10:
+                                        // Llamar a método para listar tabla profesores
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.listarProfesores();
+                                        gestor.pausa();
+                                        break;
+                                    case 11:
+                                        // Llamar a metodo para insertar profesor
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.insertarProfesor();
+                                        break;
+                                    case 12:
+                                        // Llamar a método para modificar profesor
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.modificarProfesor();
+                                        break;
+                                    case 13:
+                                        // Llamar a método para eliminar profesor
+                                        System.out.print("\033[H\033[2J");
+                                        gestor.eliminarProfesor();
+                                        break;
+                                    case 0:
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.println("Saliendo...");
+                                        gestor.pausa();
+                                        menuAdmin = false;
+                                        break;
+                                    default:
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.println("Opción no válida.");
+                                        gestor.pausa();
+                                        break;
+                                }
 
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 3:
-                                    // Llamar a método para listar todos los módulos
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 4:
-                                    // Llamar a método para eliminar módulo
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 5:
-                                    // Llamar a método para insertar alumno
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 6:
-                                    // Llamar a método para listar todos los alumnos
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 7:
-                                    // Llamar a método para listar alumnos por módulo
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 8:
-                                    // Llamar a método para eliminar alumno
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 9:
-                                    // Llamar a método para listar tabla notas
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 10:
-                                    // Llamar a método para listar tabla profesores
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 11:
-                                    // Llamar a método para modificar profesor
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 12:
-                                    // Llamar a método para eliminar profesor
-                                    System.out.print("\033[H\033[2J");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
-                                case 0:
-                                    System.out.print("\033[H\033[2J");
-                                    System.out.println("Saliendo...");
-
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    menuAdmin = false;
-                                    break;
-                                default:
-                                    System.out.print("\033[H\033[2J");
-                                    System.out.println("Opción no válida.");
-                                    System.out.println("\nPresione una tecla para continuar...");
-                                    scanner.nextLine();
-                                    break;
                             }
+                        } else {
+                            System.out.print("\033[H\033[2J");
+                            System.out.println("Usuario o contraseña incorrectos.");
+                            System.out.println("\nPresione una tecla para continuar...");
+                            scanner.nextLine();
                         }
-
                         break;
                     case "0":
                         System.out.println("Hasta luego.");
                         sc.close();
+                        gestor.cerrarConexion();
                         System.exit(0);
                         break;
                     default:

@@ -359,41 +359,6 @@ public class NotasORM {
         }
     }
 
-    public void listarNotas2() {
-        try {
-            // Limpiar la pantalla
-            System.out.print("\033[H\033[2J");
-            // Listar tabla de notas (id, idAlumno, idModulo, nota)
-            List<Notas> notas = new ArrayList<>();
-            Query q = db.query();
-            q.constrain(Notas.class);
-            ObjectSet resultado = q.execute();
-            while (resultado.hasNext()) {
-                Notas n = (Notas) resultado.next();
-                notas.add(n);
-            }
-            // Ordenar por id
-            Collections.sort(notas, (n1, n2) -> n1.getIdNotas() - n2.getIdNotas());
-            // Imprimir encabezado de la tabla
-            System.out.println("+-------+------------+------------+-------+");
-            System.out.printf(
-                    "| \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m | \033[38;5;206m%-5s\033[0m |\n",
-                    "ID", "ID Alumno ", "ID Módulo ", "Nota ");
-            System.out.println("+-------+------------+------------+-------+");
-            // Imprimir cada registro en la tabla con for
-            for (Notas n : notas) {
-                System.out.println(n.toString());
-            }
-        } catch (Exception e) {
-            // detalles del error
-
-            System.out.println("\033[38;5;196m");
-            System.out.println("Error al listar las notas");
-            e.printStackTrace();
-            System.out.print("\033[0m");
-            pausa();
-        }
-    }
 
     public void insertarNota() {
         try {

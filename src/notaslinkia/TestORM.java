@@ -164,7 +164,7 @@ public class TestORM {
                                     break;
                                 case 8:
                                     // Listar notas
-                                    gestor.listarNotas2();
+                                    gestor.listarNotas();
                                     gestor.pausa();
                                     break;
                                 case 9:

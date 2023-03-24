@@ -120,6 +120,8 @@ public class TestORM {
                         // Comprobar si el usuario existe
                         if (gestor.comprobarProfesor(user, pass)) {
 
+                            gestorHistorial.insertarHistorial(user, "P", "Inicio de sesión profesor");
+
                             // Bucle para mostrar el menú de profesor
 
                             Boolean menuProfesor = true;
@@ -155,6 +157,7 @@ public class TestORM {
                                     case 1:
                                         // Llamar a método para insertar módulo
                                         gestor.insertarModulo();
+                                        gestorHistorial.insertarHistorial(user, "M", "Modulo insertado");
                                         break;
                                     case 2:
                                         // Llamar a método para listar todos los módulos
@@ -164,10 +167,12 @@ public class TestORM {
                                     case 3:
                                         // Llamar a método para eliminar módulo
                                         gestor.eliminarModulo();
+                                        gestorHistorial.insertarHistorial(user, "M", "Modulo eliminado");
                                         break;
                                     case 4:
                                         // Llamar a método para insertar alumno
                                         gestor.insertarAlumno();
+                                        gestorHistorial.insertarHistorial(user, "G", "Alumno insertado");
                                         break;
                                     case 5:
                                         // Llamar a método para listar todos los alumnos
@@ -181,6 +186,7 @@ public class TestORM {
                                     case 7:
                                         // Llamar a método para eliminar alumno
                                         gestor.eliminarAlumno();
+                                        gestorHistorial.insertarHistorial(user, "G", "Alumno eliminado");
                                         break;
                                     case 8:
                                         // Listar notas
@@ -194,14 +200,17 @@ public class TestORM {
                                     case 10:
                                         // Insertar notas
                                         gestor.insertarNota();
+                                        gestorHistorial.insertarHistorial(user, "N", "Nota insertada");
                                         break;
                                     case 11:
                                         // Modificar notas
                                         gestor.modificarNota();
+                                        gestorHistorial.insertarHistorial(user, "N", "Nota modificada");
                                         break;
                                     case 12:
                                         // Eliminar notas
                                         gestor.eliminarNota();
+                                        gestorHistorial.insertarHistorial(user, "N", "Nota eliminada");
                                         break;
 
                                     case 0:
@@ -218,6 +227,7 @@ public class TestORM {
                             }
                         } else {
                             System.out.println("Usuario o contraseña incorrectos.");
+                            gestorHistorial.insertarHistorial(user, "P", "Inicio de sesión profesor fallido");
                             gestor.pausa();
                         }
 
@@ -239,6 +249,8 @@ public class TestORM {
                         // Comprobar usuario y contraseña
 
                         if (gestor.comprobarAlumno(user, pass)) {
+
+                            gestorHistorial.insertarHistorial(user, "A", "Inicio de sesión alumno");
 
                             // Bucle para mostrar el menú de alumno
                             Boolean menuAlumno = true;
@@ -285,6 +297,7 @@ public class TestORM {
                             }
                         } else {
                             System.out.println("Usuario o contraseña incorrectos.");
+                            gestorHistorial.insertarHistorial(user, "A", "Inicio de sesión alumno fallido");
                             gestor.pausa();
                         }
 
@@ -305,6 +318,8 @@ public class TestORM {
 
                         // Comprobar si el usuario existe
                         if (gestor.comprobarAdmin(user, pass)) {
+
+                            gestorHistorial.insertarHistorial(user, "P", "Inicio de sesión administrador");
 
                             while (menuAdmin) {
                                 System.out.print("\033[H\033[2J");
@@ -334,8 +349,8 @@ public class TestORM {
                                     case 1:
                                         // Llamar a método para listar historial
                                         System.out.print("\033[H\033[2J");
-                                        gestorHistorial.listarHistorial();
-                                        
+                                        gestorHistorial.listar();
+                                        gestor.pausa();
                                         break;
                                     case 2:
                                         // Llamar a método para insertar módulo

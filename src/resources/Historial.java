@@ -8,6 +8,16 @@ public class Historial {
     private String tipo;
     private int user;
     private String detalle;
+    private String tiempoStamp;
+
+    public String getTiempoStamp() {
+        return tiempoStamp;
+    }
+
+    public void setTiempoStamp(String tiempoStamp) {
+        this.tiempoStamp = tiempoStamp;
+    }
+
     private List<Profesor> profesores;
     private List<Alumno> alumnos;
 
@@ -29,7 +39,7 @@ public class Historial {
     }
 
     public void setId(Integer id) {
-        this.id = id + 1;
+        this.id = id;
     }
 
     public String getTipo() {
@@ -71,7 +81,6 @@ public class Historial {
     public void setAlumnos(List<Alumno> alumnos) {
         this.alumnos = alumnos;
     }
-
 
     @Override
     public String toString() {

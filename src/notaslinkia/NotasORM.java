@@ -634,7 +634,7 @@ public class NotasORM {
             System.out.print("\033[0m");
             idAlumno = sc.nextInt();
         }
-        
+
         // Query para comprobar si el alumno existe
         Query q = db.query();
         q.constrain(Alumno.class);
@@ -784,7 +784,7 @@ public class NotasORM {
     }
 
     public void modificarProfesor() {
-    
+
         // Listar profesores
         listarProfesores();
         // Pedir el código del profesor
@@ -829,7 +829,6 @@ public class NotasORM {
         pausa();
     }
 
-
     public void eliminarProfesor() {
         // Listar los profesores
         listarProfesores();
@@ -838,7 +837,7 @@ public class NotasORM {
         System.out.print("Introduce el ID del profesor a eliminar: ");
         System.out.print("\033[0m");
         int idProfesor = sc.nextInt();
-       
+
         // Query para comprobar el profesor
         Query q = db.query();
         q.constrain(Profesor.class);

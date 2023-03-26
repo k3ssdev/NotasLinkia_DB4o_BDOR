@@ -1,47 +1,53 @@
 # Proyecto de sistema de gestión de notas de Linkia
 
-Este proyecto es una aplicación de Java que utiliza Hibernate para interactuar con una base de datos MySQL que contiene información sobre estudiantes, profesores, módulos y notas.
+Este documento describe el código necesario para la tercera actividad del M06, en la que se debe construir una aplicación que permita acceder a profesores y alumnos para realizar diferentes acciones relacionadas con las notas. El programa genera por defecto un usuario administrador con nombre de usuario ‘admin’ y contraseña ‘admin’. Este usuario permite acceder a la gestión de profesores y alumnos, así como a la gestión del historial de eventos.
 
-## Estructura de archivos
+## Estructuras de datos
 
-El proyecto consta de los siguientes archivos:
+La aplicación se basa en una base de datos construida en un esquema BDOR con DB4o y mediante 4 estructuras de datos: profesor, historial, modulo y alumno.
 
-- `hibernate.cfg.xml`: configuración de Hibernate
-- `hibernate.reveng.xml`: archivo de reversión de ingeniería para generar archivos de mapeo de Hibernate
-- `persistence.xml`: archivo de configuración de JPA
-- `Alumnos.hbm.xml`: archivo de mapeo de Hibernate para la tabla `alumnos`
-- `Alumnos.java`: clase Java para la entidad `Alumnos`
-- `HibernateUtil.java`: clase Java para configurar la sesión de Hibernate
-- `Historial.hbm.xml`: archivo de mapeo de Hibernate para la tabla `historial`
-- `Historial.java`: clase Java para la entidad `Historial`
-- `Modulos.hbm.xml`: archivo de mapeo de Hibernate para la tabla `modulos`
-- `Modulos.java`: clase Java para la entidad `Modulos`
-- `Notas.hbm.xml`: archivo de mapeo de Hibernate para la tabla `notas`
-- `Notas.java`: clase Java para la entidad `Notas`
-- `Notascopy.java`: clase Java para la entidad `Notascopy`
-- `Profesores.hbm.xml`: archivo de mapeo de Hibernate para la tabla `profesores`
-- `Profesores.java`: clase Java para la entidad `Profesores`
-- `NotasORM.java`: clase Java para interactuar con la base de datos y realizar operaciones CRUD
-- `TestORM.java`: clase Java para probar las operaciones CRUD
-- `notaslinkia_Alberto_Perez_del_Rio.sql`: archivo SQL para crear y poblar la base de datos
-- `required_libraries.zip`: archivo comprimido con las librerías necesarias para ejecutar el proyecto.
-- `NotasLinkia.ja`: ejecutable de la aplicación de Java.
+### Clases POJO
 
+Las siguientes clases POJO representan las estructuras de datos:
 
-## Uso
+- Profesor: albergará los datos de los profesores que iniciarán sesión en la aplicación. Estos datos son un id, nombre, nombre de usuario y contraseña. El id será un número que identificará de forma única a los profesores.
+- Historial: guardará diferentes eventos que se realicen sobre la aplicación. Los datos son un id, tipo de evento (identificado por una letra), usuario y detalle. El id será un número que identificará de forma única a los eventos. El usuario será el id del usuario (profesor o alumno) que ha generado el evento.
+- Modulo: contendrá los datos de cada uno de los módulos de la aplicación. Estos datos son un id y el nombre del módulo (el formato del nombre del módulo será Mxx, donde xx será un número de 2 dígitos). El id será un número que identificará de forma única a los módulos.
+- Alumno: guardará los datos de cada una los alumnos y sus notas. Estos datos son un id, nombre, nombre de usuario, password, nota y módulo. El id será un número que identificará de forma única a los alumnos. El módulo será el id del módulo al que se corresponde la nota del alumno.
 
-Para utilizar este proyecto, debe seguir los siguientes pasos:
+### Backend
 
-1. Descargue e instale XAMPP para MySQL.
-2. Cree una base de datos llamada `notaslinkia` en MySQL.
-3. Ejecute el archivo `notaslinkia_Alberto_Perez_del_Rio.sql` para crear y poblar las tablas necesarias en la base de datos.
-4. Es importante que el usuario de MySQL sea `root` y la contraseña esté vacía.
-5. En la base de datos, debe haber un usuario en la tabla `profesores` con el nombre `Administrador`, el usuario `admin` y la contraseña `admin` para acceder al menú de administrador.
-6. Abra el proyecto en su IDE.
-7. Configure la conexión a la base de datos en `hibernate.cfg.xml`.
-8. Ejecute la clase `TestORM.java` para probar las operaciones CRUD en la base de datos.
+Se debe crear un backend apropiado para la gestión de profesores, llamado ‘NotasBDOR’. Este backend permitirá:
 
+- Insertar un nuevo profesor.
+- Eliminar profesor.
+- Validar la entrada de un profesor.
+- Validar la entrada de un alumno.
 
-## Créditos
+El backend anterior se debe modificar para que, al validar la entrada de un profesor, muestre por consola el mensaje ‘Validando profesor’ y, al validar la entrada de un alumno, muestre por consola el mensaje ‘Validando alumno’.
 
-Este proyecto fue creado por Alberto Pérez del Río para un ejercicio de programación en Java de la asignatura de Acceso a Datos del ciclo superior de Desarrollo de Aplicaciones Multiplataforma.
+### Frontend
+
+Se debe crear un frontend apropiado para la gestión de profesores, llamado ‘NotasBDORFrontend’. Este frontend permitirá:
+
+- Insertar un nuevo profesor.
+- Eliminar profesor.
+- Validar la entrada de un profesor.
+- Validar la entrada de un alumno.
+
+El frontend anterior se debe modificar para que, al validar la entrada de un profesor, muestre por consola el mensaje ‘Validando profesor’ y, al validar la entrada de un alumno, muestre por consola el mensaje ‘Validando alumno’.
+
+## Funcionalidades
+
+El programa debe permitir al usuario administrador:
+
+- Crear nuevos profesores.
+- Eliminar profesores.
+- Crear nuevos alumnos.
+- Eliminar alumnos.
+- Crear nuevos módulos.
+- Eliminar módulos.
+- Asignar módulos a alumnos.
+- Asignar notas a alumnos.
+- Visualizar el historial de eventos.
+
